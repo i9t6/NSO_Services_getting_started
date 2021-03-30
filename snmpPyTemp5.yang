@@ -26,7 +26,7 @@ module snmpPyTemp5 {
 
     key comm-str;
     leaf comm-str {
-      tailf:info "snmp-server community-strig";
+      tailf:info "snmp-server community-string";
       type string;
     }
 
@@ -40,13 +40,13 @@ module snmpPyTemp5 {
       }
     }
 
-    // replace with your own stuff here
     leaf access {
       tailf:info "Specify ro or rw";
       type enumeration {
         enum ro;
         enum rw;
       }
-    }
-  }
-}
+    } // leaf access
+
+  } // list snmpPyTemp5
+} // module 
