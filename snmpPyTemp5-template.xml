@@ -1,0 +1,63 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+    <device>
+      <name>{/device}</name>
+      <config>
+          <!-- If cisco-ios -->
+          <snmp-server xmlns="urn:ios">
+              <community>
+                  <name>{$COMMUNITY}</name>
+                  <RO when="{starts-with($ACCESS, 'ro')}"/>
+                  <RW when="{starts-with($ACCESS, 'rw')}"/>
+              </community>
+          </snmp-server>
+          
+          <!-- If cisco-ios-xr -->
+          <snmp-server xmlns="http://tail-f.com/ned/cisco-ios-xr">
+              <community>
+                  <name>{$COMMUNITY}</name>
+                  <RO when="{starts-with($ACCESS, 'ro')}"/>
+                  <RW when="{starts-with($ACCESS, 'rw')}"/>
+              </community>
+          </snmp-server>
+          
+          <!-- If alu -->
+          <system xmlns="http://tail-f.com/ned/alu-sr">
+              <security>
+                  <snmp>
+                      <community>
+                          <name>{$COMMUNITY}</name>
+                          <type>hash2</type>
+                          <access-parameters when="{starts-with($ACCESS, 'ro')}">r</access-parameters>
+                          <access-parameters when="{starts-with($ACCESS, 'rw')}">rw</access-parameters>
+                      </community>
+                  </snmp>
+              </security>
+          </system>
+          
+          <!-- If f5-bigip -->
+          <sys xmlns="http://tail-f.com/ned/f5-bigip">
+              <snmp>
+                  <communities>
+                      <community>
+                          <name>{$COMMUNITY}</name>
+                          <access>{$ACCESS}</access>
+                      </community>
+                  </communities>
+              </snmp>
+          </sys>
+          
+          <!-- If juniper junos -->
+          <configuration xmlns="http://xml.juniper.net/xnm/1.1/xnm">
+              <snmp>
+                  <community>
+                      <name>{$COMMUNITY}</name>
+                      <authorization when="{starts-with($ACCESS, 'ro')}">read-only</authorization>
+                      <authorization when="{starts-with($ACCESS, 'rw')}">read-write</authorization>
+                  </community>
+              </snmp>
+          </configuration>
+      </config>
+    </device>
+  </devices>
+</config-template>
