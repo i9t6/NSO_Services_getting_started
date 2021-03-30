@@ -1,0 +1,17 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0" 
+                 servicepoint="snmpTemp1">
+	<devices xmlns="http://tail-f.com/ns/ncs">
+		<device>
+			<name>{/device}</name>
+			<config>
+				<snmp-server xmlns="urn:ios">
+					<community>
+						<name>{/comm-str}	</name>
+						<RO when="{starts-with(access, 'ro')}" />
+						<RW when="{starts-with(access, 'rw')}" />
+					</community>
+				</snmp-server>
+			</config>
+		</device>
+	</devices>
+</config-template>
