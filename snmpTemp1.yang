@@ -1,0 +1,44 @@
+module snmpTemp1 {
+  namespace "http://com/example/snmpTemp1";
+  prefix snmpTemp1;
+
+  import ietf-inet-types {
+    prefix inet;
+  }
+  import tailf-ncs {
+    prefix ncs;
+  }
+  import tailf-common {
+    prefix tailf;
+  }
+
+
+  list snmpTemp1 {
+    key comm-str;
+
+    uses ncs:service-data;
+    ncs:servicepoint "snmpTemp1";
+
+    leaf comm-str {
+      tailf:info "snmp-server community-strig";
+      type string;
+    }
+
+    // may replace this with other ways of refering to the devices.
+    leaf device {
+      tailf:info "Pick any IOS Device";
+      type leafref {
+        path "/ncs:devices/ncs:device/ncs:name";
+      }
+    }
+
+    // replace with your own stuff here
+    leaf dummy {
+      tailf:info "Specify ro or rw";
+      type enumeration {
+        enum ro;
+        enum rw;
+      } 
+    }
+  }
+}
