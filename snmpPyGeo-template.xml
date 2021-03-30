@@ -1,0 +1,121 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+    <device>
+       <name>{$DEV}</name>
+       <config>
+         <!-- If cisco-ios -->
+         <snmp-server xmlns="urn:ios">
+           <community>
+             <name>{$COMMUNITY}</name>
+             <RO when="{starts-with($ACCESS, 'ro')}"/>
+             <RW when="{starts-with($ACCESS, 'rw')}"/>
+           </community>
+         </snmp-server>
+         <ip xmlns="urn:ios">
+           <domain>
+             <name>{$DOMNAME}</name>
+           </domain>
+           <name-server>
+             <name-server-list>
+               <address>{$DSRV}</address>
+             </name-server-list>
+           </name-server>
+         </ip>
+         <ntp xmlns="urn:ios">
+           <peer>
+             <ip>
+               <peer-list>
+                 <name>{$NTP}</name>
+               </peer-list>
+             </ip>
+           </peer>
+         </ntp>
+         <!-- If cisco-ios-xr -->
+         <snmp-server xmlns="http://tail-f.com/ned/cisco-ios-xr">
+           <community>
+             <name>{$COMMUNITY}</name>
+             <RO when="{starts-with($ACCESS, 'ro')}"/>
+             <RW when="{starts-with($ACCESS, 'rw')}"/>
+           </community>
+         </snmp-server>
+         <domain xmlns="http://tail-f.com/ned/cisco-ios-xr">
+           <name>{$DOMNAME}</name>
+           <ipv4>
+             <host>
+                 <host-name>{$DSRV}</host-name>
+             </host>
+           </ipv4>
+         </domain>
+         <ntp xmlns="http://tail-f.com/ned/cisco-ios-xr">
+           <server>
+             <server-list>
+                 <name>{$NTP}</name>
+               <ip-version>ipv4</ip-version>
+             </server-list>
+           </server>
+         </ntp>
+         <!-- If alu -->
+         <system xmlns="http://tail-f.com/ned/alu-sr">
+           <security>
+             <snmp>
+               <community>
+                 <name>{$COMMUNITY}</name>
+                 <type>hash2</type>
+                 <access-parameters when="{starts-with($ACCESS, 'ro')}">r</access-parameters>
+                 <access-parameters when="{starts-with($ACCESS, 'rw')}">rw</access-parameters>
+               </community>
+             </snmp>
+           </security>
+           <time>
+             <ntp>
+               <authentication-check>false</authentication-check>
+               <server>
+                   <address>{$NTP}</address>
+               </server>
+               <shutdown>false</shutdown>
+             </ntp>
+           </time>
+         </system>
+         <!-- If f5-bigip -->
+         <sys xmlns="http://tail-f.com/ned/f5-bigip">
+           <snmp>
+             <communities>
+               <community>
+                 <name>{$COMMUNITY}</name>
+                 <access>{$ACCESS}</access>
+               </community>
+             </communities>
+           </snmp>
+           <dns>
+             <name-servers>{$DSRV}</name-servers>
+           </dns>
+           <ntp>
+             <servers>{$NTP}</servers>
+           </ntp>
+         </sys>
+         <!-- If juniper junos -->
+         <configuration xmlns="http://xml.juniper.net/xnm/1.1/xnm">
+           <snmp>
+             <community>
+               <name>{$COMMUNITY}</name>
+               <authorization when="{starts-with($ACCESS, 'ro')}">read-only</authorization>
+               <authorization when="{starts-with($ACCESS, 'rw')}">read-write</authorization>
+             </community>
+           </snmp>
+           <system>
+               <domain-name>{$DOMNAME}</domain-name>
+               <name-server>
+                 <name>{$DSRV}</name>
+               </name-server>
+               <ntp>
+                 <peer>
+                   <name>{$NTP}</name>
+                 </peer>
+               </ntp>
+           </system>
+         </configuration>
+       </config>
+    </device>
+  </devices>
+</config-template>
+
