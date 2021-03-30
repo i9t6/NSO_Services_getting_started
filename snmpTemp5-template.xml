@@ -1,83 +1,60 @@
-<config-template xmlns="http://tail-f.com/ns/config/1.0" servicepoint="snmpTemp5">
-	<devices xmlns="http://tail-f.com/ns/ncs">
-		<device>
-			<name>
-				{/device}
-			</name>
-			<config tags="merge">
-				<!-- .....IOS..... -->
-				<snmp-server xmlns="urn:ios">
-					<community>
-						<name>
-							{/comm-str}
-						</name>
-						<RO when="{starts-with(access, 'ro')}" />
-						<RW when="{starts-with(access, 'rw')}" />
-					</community>
-				</snmp-server>
-				<!-- .....IOSXR..... -->
-				<snmp-server xmlns="http://tail-f.com/ned/cisco-ios-xr">
-					<community>
-						<name>
-							{/comm-str}
-						</name>
-						<RO when="{starts-with(access, 'ro')}" />
-						<RW when="{starts-with(access, 'rw')}" />
-					</community>
-				</snmp-server>
-				<!-- .....Juniper..... -->
-				<configuration xmlns="http://xml.juniper.net/xnm/1.1/xnm">
-					<snmp>
-						<community>
-							<name>
-								{/comm-str}
-							</name>
-							<authorization when="{starts-with(access, 'ro')}">
-								read-only
-							</authorization>
-							<authorization when="{starts-with(access, 'rw')}">
-								read-write
-							</authorization>
-						</community>
-					</snmp>
-				</configuration>
-				<!-- .....ALU..... -->
-				<system xmlns="http://tail-f.com/ned/alu-sr">
-					<security>
-						<snmp>
-							<community>
-								<name>
-									{/comm-str}
-								</name>
-								<type>
-									hash2
-								</type>
-								<access-parameters when="{starts-with(access, 'ro')}">
-									r
-								</access-parameters>
-								<access-parameters when="{starts-with(access, 'rw')}">
-									rw
-								</access-parameters>
-							</community>
-						</snmp>
-					</security>
-				</system>
-				<!-- .....F5 Big IP..... -->
-				<sys xmlns="http://tail-f.com/ned/f5-bigip">
-					<snmp>
-						<communities>
-							<community>
-								<name>
-									{/comm-str}
-								</name>
-								<access>
-									{/access}
-								</access>
-							</community>
-						</communities>
-					</snmp>
-				</sys>
-			</config>
-		</device>
-	</devices>
+<config-template xmlns="http://tail-f.com/ns/config/1.0"
+                 servicepoint="snmpTemp5">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+    <device>
+      <name>{/device}</name>
+      <config tags="merge">
+        <!--  .....IOS.....  -->
+        <snmp-server xmlns="urn:ios">
+          <community>
+            <name>{/comm-str}</name>
+            <RO when="{starts-with(access, 'ro')}"/>
+            <RW when="{starts-with(access, 'rw')}"/>
+          </community>
+        </snmp-server>
+        <!--  .....IOSXR.....  -->
+        <snmp-server xmlns="http://tail-f.com/ned/cisco-ios-xr">
+          <community>
+            <name>{/comm-str}</name>
+            <RO when="{starts-with(access, 'ro')}"/>
+            <RW when="{starts-with(access, 'rw')}"/>
+          </community>
+        </snmp-server>
+        <!--  .....Juniper.....  -->
+        <configuration xmlns="http://xml.juniper.net/xnm/1.1/xnm">
+          <snmp>
+            <community>
+              <name>{/comm-str}</name>
+              <authorization when="{starts-with(access, 'ro')}">read-only</authorization>
+              <authorization when="{starts-with(access, 'rw')}">read-write</authorization>
+            </community>
+          </snmp>
+        </configuration>
+       <!--  .....ALU.....  -->
+       <system xmlns="http://tail-f.com/ned/alu-sr">
+         <security>
+           <snmp>
+             <community>
+               <name>{/comm-str}</name>
+               <type>hash2</type>
+               <access-parameters when="{starts-with(access, 'ro')}">r</access-parameters>
+               <access-parameters when="{starts-with(access, 'rw')}">rw</access-parameters>
+             </community>
+           </snmp>
+         </security>
+       </system>
+       <!--  .....F5 Big IP.....  -->
+       <sys xmlns="http://tail-f.com/ned/f5-bigip">
+         <snmp>
+           <communities>
+             <community>
+               <name>{/comm-str}</name>
+               <access>{/access}</access>
+              </community>
+            </communities>
+          </snmp>
+        </sys>
+      </config>
+    </device>
+  </devices>
 </config-template>
