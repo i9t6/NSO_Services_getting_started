@@ -33,7 +33,7 @@ module snmpTemp1 {
     }
 
     // replace with your own stuff here
-    leaf dummy {
+    leaf access {
       tailf:info "Specify ro or rw";
       type enumeration {
         enum ro;
