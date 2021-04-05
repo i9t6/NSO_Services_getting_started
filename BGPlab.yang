@@ -1,0 +1,85 @@
+module BGPlab {
+  namespace "http://com/example/BGPlab";
+  prefix BGPlab;
+
+  import ietf-inet-types {
+    prefix inet;
+  }
+  import tailf-ncs {
+    prefix ncs;
+  }
+  import tailf-common { 
+    prefix tailf; 
+  }
+
+  list BGPlab {
+    key name;
+
+    uses ncs:service-data;
+    ncs:servicepoint "BGPlab";
+
+    leaf name {
+      tailf:cli-expose-key-name;     // makes name appear at cli
+      tailf:info "Unique id/name";
+      type string;
+    }
+
+    // may replace this with other ways of refering to the devices.
+    leaf-list device {
+      type leafref {
+        path "/ncs:devices/ncs:device/ncs:name";
+      }
+    }
+
+    // replace with your own stuff here
+
+    /*.. common configs ..*/
+    leaf password {
+      tailf:info "BGP neighbor password";
+      type string;
+    }
+
+    container left {
+      tailf:cli-flatten-container;
+      tailf:info "Config inputs for left ios-xr device";
+      /*.. bgp info ..*/
+      leaf asn {
+        tailf:info "BGP AS No";
+        type uint16;
+      }
+      leaf left_ip {
+        tailf:info "IP for this side as neighbor ip address";
+        type inet:ipv4-address;
+      }
+      /*.. device info ..*/
+      leaf device {
+        tailf:info "Left device";  // update this to be XR only?
+        type leafref {
+          path "/ncs:devices/ncs:device/ncs:name";
+        }
+      }
+    } // container left
+
+    container right {
+      tailf:cli-flatten-container;
+      tailf:info "Config inputs for right ios device";
+      /*.. bgp info ..*/
+      leaf asn {
+        tailf:info "BGP AS No";
+        type uint16;
+      }
+      leaf right_ip {
+        tailf:info "IP for this side as neighbor ip address";
+        type inet:ipv4-address;
+      }
+      /*.. device info ..*/
+      leaf device {
+        tailf:info "Right device";  // update this to be IOS only?
+        type leafref {
+          path "/ncs:devices/ncs:device/ncs:name";
+        }
+      }
+    } // container right
+
+  }
+}
