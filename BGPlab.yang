@@ -53,7 +53,7 @@ module BGPlab {
       }
       /*.. device info ..*/
       leaf device {
-        tailf:info "Left device";  // update this to be XR only?
+        tailf:info "Left device"; 
         type leafref {
           path "/ncs:devices/ncs:device/ncs:name";
         }
@@ -74,7 +74,7 @@ module BGPlab {
       }
       /*.. device info ..*/
       leaf device {
-        tailf:info "Right device";  // update this to be IOS only?
+        tailf:info "Right device";  
         type leafref {
           path "/ncs:devices/ncs:device/ncs:name";
         }
