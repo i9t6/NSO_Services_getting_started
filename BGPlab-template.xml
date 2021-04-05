@@ -1,0 +1,164 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0"
+                 servicepoint="BGPlab">
+                 
+  <!--  START START START -->
+  <devices xmlns="http://tail-f.com/ns/ncs">
+    <!-- -->
+    <!-- LEFT SIDE START -->
+    <!--  left side IOS  -->
+    <device>
+      <name>{/left/device}</name>
+      <config>
+        <router xmlns="urn:ios">
+          <bgp>
+            <as-no>{/left/asn}</as-no>
+            <bgp>
+              <router-id>{/left/left_ip}</router-id>
+            </bgp>
+            <neighbor>
+              <id>{/right/right_ip}</id>
+              <remote-as>{/right/asn}</remote-as>
+              <password>
+                <text>{/password}</text>
+              </password>
+              <update-source>
+                <GigabitEthernet>2</GigabitEthernet>
+              </update-source>
+            </neighbor>
+            <auto-summary>false</auto-summary>
+          </bgp>
+        </router>
+      </config>
+    </device>
+    <!--  left side IOSXR -->
+    <device>
+      <name>{/left/device}</name>
+        <config>
+          <route-policy xmlns="http://tail-f.com/ned/cisco-ios-xr">
+            <name>PASS</name>
+            <value>pass&#13;</value>
+          </route-policy>
+          <router xmlns="http://tail-f.com/ned/cisco-ios-xr">
+            <bgp>
+              <bgp-no-instance>
+                <id>{/left/asn}</id>
+                <bgp>
+                  <router-id>{/left/left_ip}</router-id>
+                </bgp>
+                <address-family>
+                  <ipv4>
+                    <unicast>
+                    </unicast>
+                  </ipv4>
+                </address-family>
+                <neighbor>
+                  <id>{/right/right_ip}</id>
+                  <remote-as>{/right/asn}</remote-as>
+                  <password>
+                    <enc-type>clear</enc-type>
+                    <password>{/password}</password>
+                  </password>
+                  <update-source>
+                    <GigabitEthernet>0/0/0/0</GigabitEthernet>
+                  </update-source>
+                  <address-family>
+                    <ipv4>
+                      <unicast>
+                        <route-policy>
+                          <direction>in</direction>
+                          <name>PASS</name>
+                        </route-policy>
+                        <route-policy>
+                          <direction>out</direction>
+                          <name>PASS</name>
+                        </route-policy>
+                      </unicast>
+                    </ipv4>
+                  </address-family>
+                </neighbor>
+              </bgp-no-instance>
+            </bgp>
+          </router>
+        </config>
+    </device>
+    <!-- -->
+    <!-- RIGHT SIDE START -->
+    <!--  right side IOS  -->
+    <device>
+      <name>{/right/device}</name>
+      <config>
+        <router xmlns="urn:ios">
+          <bgp>
+            <as-no>{/right/asn}</as-no>
+            <bgp>
+              <router-id>{/right/right_ip}</router-id>
+            </bgp>
+            <neighbor>
+              <id>{/left/left_ip}</id>
+              <remote-as>{/left/asn}</remote-as>
+              <password>
+                <text>{/password}</text>
+              </password>
+              <update-source>
+                <GigabitEthernet>2</GigabitEthernet>
+              </update-source>
+            </neighbor>
+            <auto-summary>false</auto-summary>
+          </bgp>
+        </router>
+      </config>
+    </device>
+    <!--  right side IOSXR -->
+    <device>
+      <name>{/right/device}</name>
+      <config>
+        <route-policy xmlns="http://tail-f.com/ned/cisco-ios-xr">
+          <name>PASS</name>
+          <value>pass&#13;</value>
+        </route-policy>
+        <router xmlns="http://tail-f.com/ned/cisco-ios-xr">
+          <bgp>
+            <bgp-no-instance>
+              <id>{/right/asn}</id>
+              <bgp>
+                <router-id>{/right/right_ip}</router-id>
+              </bgp>
+              <address-family>
+                <ipv4>
+                  <unicast>
+                  </unicast>
+                </ipv4>
+              </address-family>
+              <neighbor>
+                <id>{/left/left_ip}</id>
+                <remote-as>{/left/asn}</remote-as>
+                <password>
+                  <enc-type>clear</enc-type>
+                  <password>{/password}</password>
+                </password>
+                <update-source>
+                  <GigabitEthernet>0/0/0/0</GigabitEthernet>
+                </update-source>
+                <address-family>
+                  <ipv4>
+                    <unicast>
+                      <route-policy>
+                        <direction>in</direction>
+                        <name>PASS</name>
+                      </route-policy>
+                      <route-policy>
+                        <direction>out</direction>
+                        <name>PASS</name>
+                      </route-policy>
+                    </unicast>
+                  </ipv4>
+                </address-family>
+              </neighbor>
+            </bgp-no-instance>
+          </bgp>
+        </router>
+      </config>
+    </device>
+  <!--  END END END -->
+  </devices>
+</config-template>
