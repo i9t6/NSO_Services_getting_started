@@ -1,0 +1,54 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0"
+                 servicepoint="Srv_Policy_Map-servicepoint">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+    <device>
+      <name>{/device}</name>
+      <config tags="merge">
+        <!-- IOS XR -->
+        <policy-map xmlns="http://tail-f.com/ned/cisco-ios-xr">
+          <name>{/policy_name}</name>
+          <class>
+            <class-default>
+              <map>class-default</map>
+              <police-rate-unit>
+                <police>
+                  <rate>
+                    <cir>{/cir}</cir>
+                    <cir-unit>{/units}</cir-unit>
+                    <exceed-action>
+                      <drop/>
+                    </exceed-action>
+                  </rate>
+                </police>
+              </police-rate-unit>
+            </class-default>
+          </class>
+        </policy-map>
+        <!-- IOS XE -->
+        <policy-map xmlns="urn:ios">
+          <name>{/policy_name}</name>
+          <class-default>
+            <class>
+              <name>class-default</name>
+              <police-rate-unit>
+                <police>
+                  <rate>
+                    <units>{/cir_xe}</units>
+                    <xps>{/units_xe}</xps>
+                    <actions>
+                      <exceed-drop>
+                        <exceed-action>
+                          <drop/>
+                        </exceed-action>
+                      </exceed-drop>
+                    </actions>
+                  </rate>
+                </police>
+              </police-rate-unit>
+            </class>
+          </class-default>
+        </policy-map>
+      </config>
+    </device>
+  </devices>
+</config-template>
